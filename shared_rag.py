@@ -115,10 +115,10 @@ llm = AzureChatOpenAI(
 )
 
 # Test the model with a simple message
-response = llm.invoke("Say hello in one short sentence.")
+#response = llm.invoke("Say hello in one short sentence.")
 
 # Print the model response
-print(response.content)
+#print(response.content)
 
 #======================================================
 #RAG Function:
