@@ -20,25 +20,27 @@ The system uses lazy initialization to avoid repeated heavy processing and impro
 
 ## 📂 Project Structure
 
-- `shared_rag.py`  
+* `shared_rag.py`
   Contains the core RAG logic:
-  - Loads documents from Azure Blob Storage  
-  - Splits them into chunks  
-  - Creates embeddings using Azure OpenAI  
-  - Stores vectors in Chroma  
-  - Implements the `ask_question` function  
 
-- `function_app.py`  
-  Defines the HTTP API using Azure Functions.  
-  Receives a question and returns an answer with sources.
+  * Loads documents from Azure Blob Storage
+  * Splits them into chunks
+  * Creates embeddings using Azure OpenAI
+  * Stores vectors in Chroma
+  * Implements the `ask_question` function
 
-- `requirements.txt`  
-  Lists all dependencies required to run the project.
+* `function_app.py`
+  Defines the HTTP API using Azure Functions
+  Receives a question and returns an answer with sources
 
-- `host.json`  
-  Configuration file for Azure Functions runtime.
+* `requirements.txt`
+  Lists all dependencies required to run the project
+
+* `host.json`
+  Configuration file for Azure Functions runtime
 
 ---
+
 ## 🔗 Live API
 
 You can test the API using the following endpoint:
@@ -61,6 +63,19 @@ POST https://weird-animals-rag-func-gfa3fgbqg7bcabd6.westeurope-01.azurewebsites
 4. Go to Body → JSON
 5. Paste the example request
 6. Click Send
+
+---
+
+## 🧪 Example Questions
+
+You can test the system with the following questions:
+
+* Which animal can regenerate body parts?
+* Which animal is considered biologically immortal?
+* What makes the axolotl unique?
+* How does the immortal jellyfish avoid death?
+
+The documents include information about unusual animals such as the axolotl and the immortal jellyfish.
 
 ---
 
@@ -111,49 +126,54 @@ Response:
 ## 📸 Screenshots
 
 ### ✅ Successful API Response
+
 ![Success](images/Hoppscotch_with_answer_that_work.png)
 
 ### ❓ Unknown Question (Guardrail)
+
 ![Unknown](images/Hoppscotch_with_answer_that_does_not_work.png)
 
 ### 🚀 Deployment Success
+
 ![Deployment](images/Deployment_Center_succeeded.png)
 
 ### 📂 GitHub Repository
+
 ![Repo](images/repo_github.png)
 
 ---
 
 ## ⚙️ Tech Stack
 
-- Azure Functions (Python)  
-- Azure Blob Storage  
-- Azure OpenAI  
-- LangChain  
-- ChromaDB  
-- GitHub Actions  
+* Azure Functions (Python)
+* Azure Blob Storage
+* Azure OpenAI
+* LangChain
+* ChromaDB
+* GitHub Actions
 
 ---
 
 ## 🛠️ Deployment
 
-- Code pushed to Dev branch  
-- GitHub Actions builds and deploys automatically  
-- Azure Functions (Flex Consumption plan)  
+* Code pushed to Dev branch
+* GitHub Actions builds and deploys automatically
+* Azure Functions (Flex Consumption plan)
 
 ---
 
 ## ⚠️ Notes
 
-- The system only answers based on retrieved documents  
-- If the answer is not found in the data, it returns: "I don't know"  
+* The system only answers based on retrieved documents
+* If the answer is not found in the data, it returns: "I don't know"
 
 ---
 
 ## 🎯 Purpose
 
 This project demonstrates:
-- Retrieval-Augmented Generation (RAG)  
-- Semantic search using vector databases  
-- Integration between Azure services and LLMs  
-- Building a production-style AI API  
+
+* Retrieval-Augmented Generation (RAG)
+* Semantic search using vector databases
+* Integration between Azure services and LLMs
+* Building a production-style AI API
