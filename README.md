@@ -39,6 +39,30 @@ The system uses lazy initialization to avoid repeated heavy processing and impro
   Configuration file for Azure Functions runtime.
 
 ---
+## 🔗 Live API
+
+You can test the API using the following endpoint:
+
+POST https://weird-animals-rag-func-gfa3fgbqg7bcabd6.westeurope-01.azurewebsites.net/api/ask
+
+### Example request
+
+```json
+{
+  "question": "Which animal can regenerate body parts?"
+}
+```
+
+### How to test
+
+1. Go to https://hoppscotch.io
+2. Select POST
+3. Paste the URL
+4. Go to Body → JSON
+5. Paste the example request
+6. Click Send
+
+---
 
 ## 🚀 API Usage
 
@@ -133,9 +157,3 @@ This project demonstrates:
 - Semantic search using vector databases  
 - Integration between Azure services and LLMs  
 - Building a production-style AI API  
-
----
-
-## 👨‍💻 Author
-
-Ran
