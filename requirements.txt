@@ -1,5 +1,5 @@
 azure-functions
-azure-storage-blob
+azure-storage-blob==12.26.0
 langchain
 langchain-community
 langchain-text-splitters
