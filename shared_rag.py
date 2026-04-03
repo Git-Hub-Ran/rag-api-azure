@@ -106,10 +106,10 @@ def initialize_rag():
     )
     
     # Test embedding on a simple sentence
-    vector = embeddings.embed_query("This is a weird animal")
+    #vector = embeddings.embed_query("This is a weird animal")
     
     # Print vector length to confirm it works
-    print("Vector size:", len(vector))
+    #print("Vector size:", len(vector))
     
     #=================================================
     #Create Vector store DB:
