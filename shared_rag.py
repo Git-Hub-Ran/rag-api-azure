@@ -1,10 +1,12 @@
+import threading
 # Store shared objects so they can be initialized only when needed
 vectorstore = None
 llm = None
 is_initialized = False
+init_lock = threading.Lock()
 
 #======================================================
-# initializetion Function:
+# initialization Function:
 #======================================================
 # This function initializes all RAG components (only once):
 # - Connects to Azure Blob Storage and loads documents
@@ -20,12 +22,16 @@ def initialize_rag():
 
     # This prevents running the heavy initialization multiple times
     # (we only want to initialize once, not on every request)
-    if is_initialized == True:
+    if is_initialized:
         return
 
-    # This print is useful for debugging (you can see it in Azure logs)
-    print("Initializing RAG system...")
-
+    # Protect initialization from concurrent cold requests
+    with init_lock: #only 1 thread can access the code on a spesific time
+        if is_initialized:
+            return       
+        # This print is useful for debugging (you can see it in Azure logs)
+        print("Initializing RAG system...")
+   
     #=================================================
     #Connect to Azure Blob Storage and load documents:
     #=================================================
@@ -35,7 +41,9 @@ def initialize_rag():
     import os
     
     # Read the connection string from the environment variable
-    connection_string = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+    connection_string = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
+    if not connection_string:
+        raise ValueError("Missing AZURE_STORAGE_CONNECTION_STRING environment variable")
     
     # Set the container name
     container_name = "weird-animal-docs"
@@ -97,12 +105,23 @@ def initialize_rag():
     #=================================================
     # Import the Azure embeddings class from LangChain
     from langchain_openai import AzureOpenAIEmbeddings
+
+
+
+    azure_openai_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
+    if not azure_openai_endpoint:
+        raise ValueError("Missing AZURE_OPENAI_ENDPOINT environment variable")
+
+    azure_openai_api_key = os.environ.get("AZURE_OPENAI_API_KEY")
+    if not azure_openai_api_key:
+        raise ValueError("Missing AZURE_OPENAI_API_KEY environment variable")
+
     
     # Create embeddings object using my Azure OpenAI resource
     embeddings = AzureOpenAIEmbeddings(
-        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],  # my Azure endpoint
-        api_key=os.environ["AZURE_OPENAI_API_KEY"],          # my API key
-        deployment="text-embedding-3-small-model"            # my deployment name
+    azure_endpoint=azure_openai_endpoint,
+    api_key=azure_openai_api_key,
+    deployment="text-embedding-3-small-model"
     )
     
     # Test embedding on a simple sentence
@@ -135,12 +154,19 @@ def initialize_rag():
     
     # Create the chat model client using my Azure OpenAI deployment
     llm = AzureChatOpenAI(
-        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],  # Azure OpenAI endpoint
-        api_key=os.environ["AZURE_OPENAI_API_KEY"],          # Azure OpenAI API key
-        api_version="2024-10-21",                            # Azure OpenAI API version used by this client
-        deployment_name="gpt-4.1-nano-model",                # My chat deployment name in Azure AI Foundry
-        temperature=0                                        # Keep answers stable and deterministic
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"], 
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],          
+        api_version="2024-10-21",                            
+        deployment_name="gpt-4.1-nano-model",                
+        temperature=0                                       
     )
+    llm = AzureChatOpenAI(
+    azure_endpoint=azure_openai_endpoint,    # Azure OpenAI endpoint
+    api_key=azure_openai_api_key,            # Azure OpenAI API key
+    api_version="2024-10-21",                # Azure OpenAI API version used by this client
+    deployment_name="gpt-4.1-nano-model",    # My chat deployment name in Azure AI Foundry
+    temperature=0                            # Keep answers stable and deterministic
+)
     
     # Test the model with a simple message
     #response = llm.invoke("Say hello in one short sentence.")
