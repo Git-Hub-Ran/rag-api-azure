@@ -34,13 +34,20 @@ def ask_question_api(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400,
             mimetype="application/json"
         )
-
+    
     # Call the RAG function
-    result = ask_question(question)
-
-    # Return the result as JSON
+    try:
+        result = ask_question(question)
+    except Exception as e:
+        return func.HttpResponse(
+            json.dumps({"error": f"Internal server error: {str(e)}"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+    
+    # If everything worked successfully, return the result as a JSON response
     return func.HttpResponse(
-        json.dumps(result),
+        json.dumps(result),            # Convert the result dictionary to JSON
         status_code=200,
         mimetype="application/json"
     )
