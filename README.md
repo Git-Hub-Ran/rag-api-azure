@@ -9,6 +9,13 @@ It retrieves relevant document chunks using semantic search and generates ground
 The system ensures that answers are based only on the provided data and avoids hallucinations.
 
 ---
+## 🎥 Demo Video
+
+A short technical walkthrough of the project - architecture, design decisions, and live demo.
+
+▶️ **[Watch the demo](https://github.com/Git-Hub-Ran/rag-api-azure/releases/tag/v1.0-demo)**
+
+---
 
 ## 🧠 Architecture
 
