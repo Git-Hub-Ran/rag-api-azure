@@ -10,7 +10,7 @@ The system ensures that answers are based only on the provided data and avoids h
 
 ---
 
-## 📌 Project Status
+## ⚠️ Project Status
 
 ⚠️ **The live API has been taken down** to avoid ongoing Azure costs.
 The project is fully functional and can be redeployed at any time using the code and GitHub Actions workflow in this repo.
