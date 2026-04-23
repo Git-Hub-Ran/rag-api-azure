@@ -9,6 +9,16 @@ It retrieves relevant document chunks using semantic search and generates ground
 The system ensures that answers are based only on the provided data and avoids hallucinations.
 
 ---
+
+## ⚠️ Project Status
+
+⚠️ **The live API has been taken down** to avoid ongoing Azure costs.
+The project is fully functional and can be redeployed at any time using the code and GitHub Actions workflow in this repo.
+
+📺 A full demo video is available below, showing the API in action.
+
+---
+
 ## 🎥 Demo Video
 
 A short technical walkthrough of the project - architecture, design decisions, and live demo.
@@ -48,11 +58,14 @@ The system uses lazy initialization to avoid repeated heavy processing and impro
 
 ---
 
-## 🔗 Live API
+## 🔗 API (Previously Deployed)
 
-You can test the API using the following endpoint:
+The API was deployed to Azure Functions at:
 
 POST https://weird-animals-rag-func-gfa3fgbqg7bcabd6.westeurope-01.azurewebsites.net/api/ask
+
+> ⚠️ This endpoint is no longer active, the Azure resources were deleted to save on costs.
+> You can watch the demo video above to see the API in action, or redeploy it yourself using the GitHub Actions workflow.
 
 ### Example request
 
@@ -62,14 +75,25 @@ POST https://weird-animals-rag-func-gfa3fgbqg7bcabd6.westeurope-01.azurewebsites
 }
 ```
 
-### How to test
+### How to test (when redeployed)
 
-1. Go to https://hoppscotch.io
-2. Select POST
-3. Paste the URL
-4. Go to Body → JSON
-5. Paste the example request
-6. Click Send
+1. Deploy the function to your own Azure Functions instance
+2. Go to https://hoppscotch.io
+3. Select POST
+4. Paste your deployed URL
+5. Go to Body → JSON
+6. Paste the example request
+7. Click Send
+
+---
+
+## 🔐 Required Environment Variables
+
+To run the function, set these in Azure Function App Configuration:
+
+* `AZURE_STORAGE_CONNECTION_STRING` — connection string for your Blob Storage account
+* `AZURE_OPENAI_ENDPOINT` — your Azure OpenAI resource endpoint
+* `AZURE_OPENAI_API_KEY` — your Azure OpenAI API key
 
 ---
 
@@ -163,9 +187,13 @@ Response:
 
 ## 🛠️ Deployment
 
-* Code pushed to Dev branch
-* GitHub Actions builds and deploys automatically
-* Azure Functions (Flex Consumption plan)
+The project used a fully automated CI/CD pipeline:
+
+* Code pushed to the `Dev` branch
+* GitHub Actions builds and deploys to Azure Functions
+* Running on Azure Functions Flex Consumption plan (scales to zero)
+
+To redeploy: clone the repo, set the required environment variables in Azure, and push to `Dev`.
 
 ---
 
